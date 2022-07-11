@@ -1,12 +1,19 @@
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  packer_bootstrap = fn.system {
+    'git',
+    'clone',
+    '--depth',
+    '1',
+    'https://github.com/wbthomason/packer.nvim',
+    install_path,
+  }
 end
-vim.cmd [[packadd packer.nvim]]
+vim.cmd([[packadd packer.nvim]])
 
 return require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'
+  use('wbthomason/packer.nvim')
 
   -- File explorer
   use {
@@ -14,9 +21,9 @@ return require('packer').startup(function(use)
     requires = 'kyazdani42/nvim-web-devicons',
     config = function()
       require('nvim-tree').setup {
-        view = { width = 35 }
+        view = { width = 35 },
       }
-    end
+    end,
   }
 
   -- Theme
@@ -25,7 +32,7 @@ return require('packer').startup(function(use)
     config = function()
       require('onedark').setup()
       require('onedark').load()
-    end
+    end,
   }
 
   -- Treesitter
@@ -33,20 +40,8 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'lua', 'bash', 'markdown', 'typescript', 'javascript', 'rust', 'python', 'toml', 'yaml', 'json' },
-        auto_install = true,
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false
-        },
-        indent = { enable = true },
-        incremental_selection = {
-          enable = true,
-          keymaps = {} -- TODO
-        }
-      }
-    end
+      require('treesitter')
+    end,
   }
 
   -- Lualine
@@ -54,10 +49,8 @@ return require('packer').startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
-      require('lualine').setup {
-        options = { theme = 'onedark' }
-      }
-    end
+      require('lualine').setup { options = { theme = 'onedark' } }
+    end,
   }
 
   -- indent lines
@@ -65,7 +58,7 @@ return require('packer').startup(function(use)
     'lukas-reineke/indent-blankline.nvim',
     config = function()
       require('indent_blankline').setup()
-    end
+    end,
   }
 
   -- Telescope
@@ -74,30 +67,30 @@ return require('packer').startup(function(use)
     opt = false,
     requires = {
       { 'nvim-lua/plenary.nvim' },
-      { 'kyazdani42/nvim-web-devicons', opt = true }
+      { 'kyazdani42/nvim-web-devicons', opt = true },
     },
     setup = function()
       require('telescope').setup()
       require('telescope').load_extension('fzf')
-    end
+    end,
   }
 
   -- Telescope fzf
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'make'
+    run = 'make',
   }
 
   -- Autopairs
   use {
-	  'windwp/nvim-autopairs',
+    'windwp/nvim-autopairs',
     config = function()
       require('nvim-autopairs').setup()
-    end
+    end,
   }
 
   -- Completion
-  use 'L3MON4D3/LuaSnip'
+  use('L3MON4D3/LuaSnip')
   use {
     'hrsh7th/nvim-cmp',
     requires = {
@@ -105,19 +98,20 @@ return require('packer').startup(function(use)
       { 'hrsh7th/cmp-path' },
       { 'hrsh7th/cmp-buffer' },
       { 'hrsh7th/cmp-nvim-lsp' },
-      { 'neovim/nvim-lspconfig' }
+      { 'neovim/nvim-lspconfig' },
     },
     config = function()
       require('completions')
-    end
+    end,
   }
-  use 'saadparwaiz1/cmp_luasnip'
-  use 'rafamadriz/friendly-snippets'
+  use('saadparwaiz1/cmp_luasnip')
+  use('rafamadriz/friendly-snippets')
 
-  use 'neovim/nvim-lspconfig'
+  use('neovim/nvim-lspconfig')
+
+  use('airblade/vim-gitgutter')
 
   if packer_bootstrap then
     require('packer').sync()
   end
 end)
-

@@ -2,6 +2,7 @@ local map = vim.api.nvim_set_keymap
 
 -- nvim-tree
 map('n', 'n', [[:NvimTreeToggle<cr>]], {})
+map('n', 'm', [[:NvimTreeRefresh<cr>]], {})
 
 -- Telescope
 map('n', 'ff', [[:Telescope find_files<cr>]], {})
@@ -17,5 +18,4 @@ map('t', '<C-W>k', [[<C-\><C-n><C-W>k]], {})
 map('t', '<C-W>l', [[<C-\><C-n><C-W>l]], {})
 
 -- Open terminal
-map('n', 't', [[:split<cr><C-W>j:resize 12<cr>:term<cr>:setlocal wfh nonumber norelativenumber<cr>i]], {})
-
+map('n', 't', [[:split<cr><C-W>j:resize 12<cr>:term<cr>:setlocal wfh nonumber norelativenumber nocursorline<cr>i]], {})
