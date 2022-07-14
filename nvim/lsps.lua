@@ -1,11 +1,22 @@
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
 local lspconfig = require('lspconfig')
 
-lspconfig.sumneko_lua.setup {}
-lspconfig.rust_analyzer.setup {}
-lspconfig.pyright.setup {}
-lspconfig.svelte.setup {}
-lspconfig.java_language_server.setup {}
-lspconfig.tsserver.setup {}
-lspconfig.dockerls.setup {}
-lspconfig.marksman.setup {}
+local servers = {
+  'sumneko_lua',
+  'rust_analyzer',
+  'pyright',
+  'svelte',
+  'java_language_server',
+  'tsserver',
+  'dockerls',
+  'marksman'
+}
+
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    capabilities = capabilities
+  }
+end
 

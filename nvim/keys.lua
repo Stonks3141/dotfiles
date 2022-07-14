@@ -18,4 +18,4 @@ map('t', '<C-W>k', [[<C-\><C-n><C-W>k]], {})
 map('t', '<C-W>l', [[<C-\><C-n><C-W>l]], {})
 
 -- Open terminal
-map('n', 't', [[:split<cr><C-W>j:resize 12<cr>:term<cr>:setlocal wfh nonumber norelativenumber nocursorline<cr>i]], {})
+map('n', 't', [[:split<cr><C-W>j:resize 12<cr>:term<cr>:setlocal wfh<cr>i]], {})
