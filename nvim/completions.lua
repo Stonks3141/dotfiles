@@ -43,8 +43,8 @@ cmp.setup {
   },
   completion = { completeopt = 'menu,menuone,noinsert' },
   mapping = cmp.mapping.preset.insert {
-    ['<C-Up>'] = cmp.mapping(cmp.mapping.scroll_docs(4)),
-    ['<C-Down>'] = cmp.mapping(cmp.mapping.scroll_docs(-4)),
+    ['<C-Up>'] = cmp.mapping(cmp.mapping.scroll_docs(-4)),
+    ['<C-Down>'] = cmp.mapping(cmp.mapping.scroll_docs(4)),
     ['<Esc>'] = cmp.mapping.abort(),
     ['<Tab>'] = cmp.mapping.confirm { select = true },
   },

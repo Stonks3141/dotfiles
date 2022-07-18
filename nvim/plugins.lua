@@ -89,6 +89,14 @@ return require('packer').startup(function(use)
     end,
   }
 
+  -- nvim-surround
+  use({
+    'kylechui/nvim-surround',
+    config = function()
+        require('nvim-surround').setup({})
+    end
+  })
+
   -- Completion
   use('L3MON4D3/LuaSnip')
   use {
