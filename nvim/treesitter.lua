@@ -1,4 +1,4 @@
-require('nvim-treesitter.configs').setup {
+require('nvim-treesitter.configs').setup({
   ensure_installed = {
     'lua',
     'bash',
@@ -10,6 +10,7 @@ require('nvim-treesitter.configs').setup {
     'toml',
     'yaml',
     'json',
+    'svelte',
   },
   auto_install = true,
   highlight = {
@@ -21,4 +22,4 @@ require('nvim-treesitter.configs').setup {
     enable = true,
     keymaps = {}, -- TODO
   },
-}
+})

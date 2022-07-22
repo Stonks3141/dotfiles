@@ -31,7 +31,7 @@ local cmp_kinds = {
   TypeParameter = '  ',
 }
 
-cmp.setup {
+cmp.setup({
   snippet = {
     expand = function(args)
       require('luasnip').lsp_expand(args.body)
@@ -42,12 +42,12 @@ cmp.setup {
     documentation = { border = 'none' },
   },
   completion = { completeopt = 'menu,menuone,noinsert' },
-  mapping = cmp.mapping.preset.insert {
+  mapping = cmp.mapping.preset.insert({
     ['<C-Up>'] = cmp.mapping(cmp.mapping.scroll_docs(-4)),
     ['<C-Down>'] = cmp.mapping(cmp.mapping.scroll_docs(4)),
     ['<Esc>'] = cmp.mapping.abort(),
-    ['<Tab>'] = cmp.mapping.confirm { select = true },
-  },
+    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
+  }),
   formatting = {
     format = function(_, vim_item)
       vim_item.kind = (cmp_kinds[vim_item.kind] or '') .. vim_item.kind
@@ -61,4 +61,4 @@ cmp.setup {
     { name = 'cmdline' },
     { name = 'nvim_lsp' },
   },
-}
+})

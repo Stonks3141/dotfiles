@@ -1,14 +1,14 @@
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system {
+  packer_bootstrap = fn.system({
     'git',
     'clone',
     '--depth',
     '1',
     'https://github.com/wbthomason/packer.nvim',
     install_path,
-  }
+  })
 end
 vim.cmd([[packadd packer.nvim]])
 
@@ -16,53 +16,53 @@ return require('packer').startup(function(use)
   use('wbthomason/packer.nvim')
 
   -- File explorer
-  use {
+  use({
     'kyazdani42/nvim-tree.lua',
     requires = 'kyazdani42/nvim-web-devicons',
     config = function()
-      require('nvim-tree').setup {
+      require('nvim-tree').setup({
         view = { width = 35 },
-      }
+      })
     end,
-  }
+  })
 
   -- Theme
-  use {
+  use({
     'navarasu/onedark.nvim',
     config = function()
       require('onedark').setup()
       require('onedark').load()
     end,
-  }
+  })
 
   -- Treesitter
-  use {
+  use({
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     config = function()
       require('treesitter')
     end,
-  }
+  })
 
   -- Lualine
-  use {
+  use({
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
-      require('lualine').setup { options = { theme = 'onedark' } }
+      require('lualine').setup({ options = { theme = 'onedark' } })
     end,
-  }
+  })
 
   -- indent lines
-  use {
+  use({
     'lukas-reineke/indent-blankline.nvim',
     config = function()
       require('indent_blankline').setup()
     end,
-  }
+  })
 
   -- Telescope
-  use {
+  use({
     'nvim-telescope/telescope.nvim',
     opt = false,
     requires = {
@@ -73,33 +73,33 @@ return require('packer').startup(function(use)
       require('telescope').setup()
       require('telescope').load_extension('fzf')
     end,
-  }
+  })
 
   -- Telescope fzf
-  use {
+  use({
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make',
-  }
+  })
 
   -- Autopairs
-  use {
+  use({
     'windwp/nvim-autopairs',
     config = function()
       require('nvim-autopairs').setup()
     end,
-  }
+  })
 
   -- nvim-surround
   use({
     'kylechui/nvim-surround',
     config = function()
-        require('nvim-surround').setup({})
-    end
+      require('nvim-surround').setup({})
+    end,
   })
 
   -- Completion
   use('L3MON4D3/LuaSnip')
-  use {
+  use({
     'hrsh7th/nvim-cmp',
     requires = {
       { 'hrsh7th/cmp-cmdline' },
@@ -111,7 +111,7 @@ return require('packer').startup(function(use)
     config = function()
       require('completions')
     end,
-  }
+  })
   use('saadparwaiz1/cmp_luasnip')
   use('rafamadriz/friendly-snippets')
 

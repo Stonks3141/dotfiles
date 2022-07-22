@@ -4,6 +4,7 @@ package.path = package.path .. ';' .. os.getenv('HOME') .. '/.config/nvim/?/init
 require('plugins')
 require('opts')
 require('keys')
+require('term')
 require('lsps')
 
 vim.env.GIT_EDITOR = 'nvr --remote-tab-wait -c "set bufhidden=delete"'
