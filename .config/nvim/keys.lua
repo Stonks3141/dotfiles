@@ -4,7 +4,7 @@ local set = vim.keymap.set
 local map = api.nvim_set_keymap
 
 -- nvim-tree
-set('n', 'm', function()
+set('n', ';', function()
   require('nvim-tree').toggle()
 end)
 

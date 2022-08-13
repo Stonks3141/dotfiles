@@ -9,9 +9,13 @@ local servers = {
   'pyright',
   'svelte',
   'java_language_server',
+  'kotlin_language_server',
   'tsserver',
   'dockerls',
   'marksman',
+  'gopls',
+  'html',
+  'cssls',
 }
 
 for _, lsp in ipairs(servers) do
@@ -19,6 +23,11 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   })
 end
+
+lspconfig.java_language_server.setup({
+  capabilities = capabilities,
+  cmd = { 'java-language-server' },
+})
 
 vim.lsp.handlers['textDocument/publishDiagnostics'] =
   vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {

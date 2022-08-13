@@ -1,18 +1,22 @@
 local api = vim.api
 local cmd = vim.cmd
-local ol = vim.opt_local
+local o = vim.opt
 local set = vim.keymap.set
 
 local win = -1
 local buf = -1
 local bufs = {}
-local i = 0
+local i = 1
+
+-- # Invariants
+-- - bufs[i] === buf
 
 function open_win()
-  local tmp = ol.splitbelow
-  ol.splitbelow = true
+  -- restore previous setting so help opens on top
+  local tmp = o.splitbelow
+  o.splitbelow = true
   cmd('split')
-  ol.splitbelow = tmp
+  o.splitbelow = tmp
 
   win = api.nvim_get_current_win()
 
@@ -20,7 +24,7 @@ function open_win()
   api.nvim_win_set_option(win, 'cursorline', false)
   api.nvim_win_set_option(win, 'number', false)
   api.nvim_win_set_option(win, 'relativenumber', false)
-  api.nvim_win_set_option(win, 'wfh', true)
+  api.nvim_win_set_option(win, 'wfh', true) -- window fixed height
 end
 
 function switch_or_open()
@@ -31,36 +35,41 @@ function switch_or_open()
   end
 end
 
+-- current window must be `win`
 function new_term()
   cmd('term')
   buf = api.nvim_get_current_buf()
-  i = #bufs
   table.insert(bufs, buf)
-end
-
-function open_term_buf()
-  if not api.nvim_buf_is_loaded(buf) then
-    table.remove(bufs, i)
-    if #bufs > 0 then
-      if i >= #bufs then i = i - 1 end
-      buf = bufs[i]
-    else
-      new_term()
-    end
-  end
-  api.nvim_win_set_buf(win, buf)
+  i = #bufs
   cmd('startinsert')
 end
 
-function cycle_term_buf(index)
-  local len = #bufs
-  i = i + index
-  if i < 0 then i = i + len
-  elseif i >= len then i = i - len end
+-- current window must be `win`
+function open_term_buf()
+  -- must handle the cases where i > #bufs or >1 buf in bufs is invalid
+  if not api.nvim_buf_is_loaded(buf) then
+    table.remove(bufs, i)
+    if #bufs > 0 then
+      if i > #bufs then
+        i = #bufs
+      end
+      buf = bufs[i]
+      open_term_buf()
+    else
+      new_term()
+    end
+  else
+    api.nvim_win_set_buf(win, buf)
+    cmd('startinsert')
+  end
+end
 
+function cycle_term_buf(index)
+  i = (i + index) % #bufs + 1
   buf = bufs[i]
-  print(buf)
-  api.nvim_win_set_buf(win, buf)
+  vim.pretty_print(i, bufs)
+  open_term_buf()
+  --api.nvim_win_set_buf(win, buf)
 end
 
 function toggle_term_win()
@@ -75,8 +84,6 @@ end
 function new_term_buf()
   switch_or_open()
   new_term()
-  api.nvim_win_set_buf(win, buf)
-  cmd('startinsert')
 end
 
 function cycle_term_buf_right() cycle_term_buf(1) end
@@ -84,5 +91,5 @@ function cycle_term_buf_left() cycle_term_buf(-1) end
 
 set('n', 'tt', toggle_term_win)
 set('n', 'tn', new_term_buf)
-set('n', 'th', cycle_term_buf_left)
-set('n', 'tl', cycle_term_buf_right)
+set('n', 'tj', cycle_term_buf_left)
+set('n', 'tk', cycle_term_buf_right)

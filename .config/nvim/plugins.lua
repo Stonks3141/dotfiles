@@ -122,4 +122,13 @@ return require('packer').startup(function(use)
   if packer_bootstrap then
     require('packer').sync()
   end
+
+  -- Tabs
+  use({
+    'romgrk/barbar.nvim',
+    requires = {'kyazdani42/nvim-web-devicons'},
+    config = function()
+      require('barbar')
+    end
+  })
 end)
